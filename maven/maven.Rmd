@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+File is from: https://github.com/alexleavitt/r_uxresearch/blob/main/uxrfund_introtor_day2.R
+
+TODAY'S LESSON: We'll be using survey data! 
+Check it out: https://docs.google.com/spreadsheets/d/1u8_iW25YpL2__q_0FJQ5CQ-LNQkUchz3yVOFUm2oHIQ/edit
+
+
+Importing Data (CSV or GoogleSheets)
+
+```{r}
+## CSVs
+
+# from tidyverse
+# https://readr.tidyverse.org/reference/read_delim.html
+#library(readr)
+#survey_data.df <- read_csv("https://alexleavitt.net/showerthoughtsurveys/1_musicinyourhead/musicinyourheadsurvey.csv")
+#str(survey_data.df)
+
+```
+
+```{r}
+## Google Sheets
+
+install.packages('googlesheets4')
+library(googlesheets4)
+survey_data.df <- read_sheet('https://docs.google.com/spreadsheets/d/1u8_iW25YpL2__q_0FJQ5CQ-LNQkUchz3yVOFUm2oHIQ/edit')
+str(survey_data.df)
+
+```
+
+```{r}
+
+# Best practice: save a backup, so you don't have to reload
+survey_data.df.raw <- survey_data.df
+
+```
+
+Getting timestamp of when people submitted the survey
+
+```{r}
+
+## Functions
+dimnames(survey_data.df)
+plot(survey_data.df$`Timestamp`)
+
+```
+
+
+
+
+
+
