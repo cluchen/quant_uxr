@@ -100,3 +100,97 @@ print(cor_test)
 
 Q5: Use a regression as another way to determine whether customers’ total spending on books
 and their total spending on non-book products is correlated. Is the coefficient significant?
+
+```{r}
+
+#is this correlation statistically signficant?
+#let's answer this with regression instead of pearson's correlation
+    
+#Fit linear regression model 
+model <- lm(df$total_ ~ df$nonbook_)
+
+#Print summary of model
+summary(model)
+
+#ANSWER = from this we can see that one dollar increase in non-book spending correlates to one 1.06 dollar increase in total spending. In addition, we can see that this is statistically significant (p-value <0.05). So there's clearly a positive correlation between the value variables and holds at the population at large.
+
+```
+
+Q6: Which book categories have sold the most books? Which have sold the least?
+
+```{r}
+
+df_book_categories = data.frame(df$child,df$youth,df$cook,df$do_it,df$refernce,df$art,df$geog)
+head(df_book_categories)
+
+# Calculate sum of each column
+column_sums <- colSums(df_book_categories)
+
+# Rank the column sums in descending order
+ranked_sums <- sort(column_sums, decreasing = TRUE)
+
+# Print the ranked sums
+print(ranked_sums)
+
+# ANSWER = cook is most, reference is least
+
+```
+
+Q7: Create a bar chart showing the average total spending on books for males and females.
+
+```{r}
+
+#install.packages("ggplot2", dependencies = TRUE, reinstall = TRUE)
+library(ggplot2)
+
+# Split the data by gender and then sum the total_ for each gender
+gender_means <- sapply(split(df$total_, df$gender), mean)
+
+# Tabulate the counts for "gender"
+print(gender_means)
+
+# Create a data frame for ggplot
+df_sums <- data.frame(gender = names(gender_means), total_sum = gender_means)
+
+# Create the bar plot
+ggplot(df_sums, aes(x = gender, y = total_sum, fill = gender)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Total Spending by Gender", x = "Gender", y = "Total Spending") +
+  theme_minimal()
+
+```
+Q8: Is the average total spending on books statistically different for males and females? 
+
+```{r}
+
+#t-test = 1 categorial (f vs. m) and 1 continuous (total spending) 
+
+#first, we need to recode gender to female (0, 1)
+df$gender_recoded <- ifelse(df$gender == "M", 0, 1)
+
+# Run the t-test
+t_test_result <- t.test(total_ ~ gender_recoded, data = df)
+print(t_test_result)
+
+#ANSWER = yep, it's statistically significant
+
+```
+Q9: Answer question 8 using a dummy variable regression. Hint: First transform the gender
+
+```{r}
+
+#is this correlation statistically signficant?
+#let's answer this with regression instead of pearson's correlation
+    
+#Fit linear regression model 
+model_gender <- lm(df$total_ ~ df$gender_recoded)
+
+#Print summary of model
+summary(model_gender)
+
+#ANSWER = from this we can see that one dollar increase in non-book spending correlates to one 1.06 dollar increase in total spending. In addition, we can see that this is statistically significant (p-value <0.05). So there's clearly a positive correlation between the value variables and holds at the population at large.
+
+```
+Q10: For both males and females, find the total number and also the percent who bought “The Art History of Florence."
+
+
