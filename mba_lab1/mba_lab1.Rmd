@@ -3,27 +3,100 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+File is from: https://colab.research.google.com/drive/1Ws9ZyVpsis825FOVX5fjvTE7N7nV-ZmG#scrollTo=15hz0ZF3hb0b
+This is translated from Python to R 
 
 ```{r}
 # Set the path to the file
-file_path <- "~/Desktop/GSS.rdata"
+file_path <- "~/Desktop/quant_uxr/datasets/BBB.csv"
 
-# Load the .RData file
-load(file_path)
+# Load the .csv file
+df <- read.csv(file_path)
 
-# List the objects loaded from the file
-print(ls())
+# Print the first few rows of the dataset
+head(df)
 
-# Assuming the dataset is stored as a data frame named 'GSS', print the first few rows
-head(GSS)
+```
+Q1: What percentage of customers are female? 
+
+```{r}
+# Tabulate the counts for "gender"
+gender_counts <- table(df$gender)
+
+# Print the counts
+print(gender_counts)
+
+# Calculate the frequencies (proportions)
+gender_freq <- prop.table(gender_counts)
+
+# Print the frequencies
+print(gender_freq)
+
+```
+Q2: What three states account for the largest share of BookBinder's customers? 
+
+```{r}
+# Tabulate the counts for "state"
+state_counts <- table(df$state)
+
+# Sort the counts in descending order to get the most frequent states first
+sorted_counts <- sort(state_counts, decreasing = TRUE)
+
+# Print the sorted counts (Top 3)
+print(head(sorted_counts, 3))
+
+#ANSWER = NY, NJ, PA
 
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+Q3: What is the average Total $ spent, the average Total # of book purchases, and the average number of months since last purchase?
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+```{r}
+total_sum <- sum(df$total_)
+print(total_sum)
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+purch_mean <- mean(df$purch)
+print(purch_mean)
+
+last_mean <- mean(df$last)
+print(last_mean)
+
+```
+
+Q4: Calculate the correlation between customers’ total spending on books and their total
+spending on non-book products. Is the correlation statistically significant?
+
+We will use mba263 pwcorr function, which returns correlation coefficient and p-value for the $\chi^2$ test.
+H0 is that correlation coefficient is 0.
+
+```{r}
+
+#we want the correlation between
+#1) customers' total spending on books (total_)
+#2) their total spending on non-book products (nonbook_)
+
+#pearson correlation - 2 continous variables
+    
+correlation = cor(df$total_, df$nonbook_, method = "pearson")
+print(correlation)
+
+#ANSWER = 0.92, strong positive correlation
+
+```
+
+```{r}
+
+#is this correlation statistically signficant?
+    
+# Perform correlation test
+cor_test <- cor.test(df$total_, df$nonbook_)
+
+# Print results
+print(cor_test)
+
+#ANSWER = p-value is less than 0.05, so we reject that there is no correlation (h0) - or in other words, conclude there is correlation between book and non-book spending in the population.
+
+```
+
+Q5: Use a regression as another way to determine whether customers’ total spending on books
+and their total spending on non-book products is correlated. Is the coefficient significant?
