@@ -1,0 +1,190 @@
+---
+title: "R Mini Assignment"
+author: "Your Name"
+---
+
+&nbsp;
+
+##### Question 1:   
+(a)	 Create the following vectors:  
++ a = (8, 9, 10, 11, ..., 20)  
++ b = (30, 29, 28, ..., 18)   
+
+```{r}
+
+a = 8:20
+print(a) 
+
+b = 30:18
+print(b)
+
+```
+
+Multiply vectors a and b element-wise and call the result d. 
+
+```{r}
+
+d = a * b
+print(d)
+
+```
+
+Select subsets of d to identify the following. 
+(b) What are the 4th, 5th, and 6th elements of d? 
+
+```{r}
+# Your code here 
+
+print(d[4])
+print(d[5])
+print(d[6])
+
+```
+
+(c) What are all of the elements of d which are less than 300? 
+
+```{r}
+
+less_than_300 <- d[d < 300]
+print(less_than_300)
+
+```
+
+(d) How many elements of d are greater than 350? Use the help function to learn about the function length() and find ways to use it throughout this assignment. 
+
+```{r}
+
+more_than_350 <- d[d < 350]
+print(length(more_than_350))
+
+```
+
+&nbsp;
+
+##### Question 2: Download the file ‘quakes.csv’ from bcourses and write the R code for the following questions. Make sure to print out the asked for values in your knitted html file.   
+
+(a) Import the csv file into R. 
+
+```{r}
+# Set the path to the file
+file_path <- "~/Desktop/quant_uxr/datasets/quakes.csv"
+
+# Load the .csv file
+df <- read.csv(file_path)
+
+# Print the first few rows of the dataset
+head(df)
+
+```
+
+(b) Find the mean of the variable ‘mag’
+
+```{r}
+
+mean = mean(df$mag, na.rm = TRUE)
+print(mean)
+
+```
+
+(c) Find the number of numeric values for the variable ‘mag’ which are greater than the mean. 
+
+```{r}
+
+count_greater <- sum(df$mag > mean, na.rm = TRUE)
+print(count_greater)
+
+```
+
+(d) Find the standard deviation of the variable ‘stations’
+```{r}
+
+sd = sd(df$stations, na.rm = TRUE)
+print(sd)
+
+```
+
+(e) Find the number of missing values for the variable ‘stations’. Then, find the standard deviation of the variable 'stations' only for rows that do not have any missing values (omit the whole row if there is a missing value).
+
+```{r}
+
+count_na <- sum(is.na(df$stations))
+print(count_na)
+
+```
+
+(f) Find the value of ‘stations’ corresponding to the row with the highest value for depth 
+
+```{r}
+
+max_depth <- which.max(df$depth)
+print(max_depth)
+
+print(df$stations[max_depth])
+
+```
+
+(g) Create a new string (with "character" class) variable ‘str_impact’ with values as: 
++ ‘Low’ if value of ‘mag’ is less than or equal to 4.9 
++ ‘High’ if value of ‘mag’ is greater than 4.9   
+
+```{r}
+
+df$str_impact <- ifelse(df$mag <= 4.9, "Low", "High")
+
+head(df)
+
+```
+
+(h) Create a new numeric (with “numeric” class) variable ‘num_impact’ with:
++ 0 if value of ‘mag’ is less than or equal to 4.9 
++ 1 if value of ‘mag’ is greater than 4.9 
+
+Compute its mean. 
+
+```{r}
+
+df$num_impact <- ifelse(df$mag <= 4.9, "0", "1")
+
+head(df)
+
+```
+
+(i) Create a new factor variable ‘factor_impact’ with 2 levels:
++ ‘Low’ if value of ‘mag’ is less than or equal to 4.9 
++ ‘High’ if value of ‘mag’ is greater than 4.9 
+
+```{r}
+
+df$factor_impact <- ifelse(df$mag <= 4.9, "Low", "High")
+
+head(df)
+
+```
+
+(j) Create a new numeric variable 'status' that repeats the values 95 through 99 (e.g. row 1 has value 95, row 2 has value 96, row 3 has value 97, row 4 has 98, row 5 has 99, row 6 has 95, etc). Recode all the values of status that have the value 99 as NA. 
+
+```{r}
+
+# Create the 'status' variable that repeats values 95 through 99
+df$status <- rep(95:99, length.out = nrow(data))
+
+# Recode all values of 'status' that are 99 as NA
+df$status[df$status == 99] <- NA
+
+# View the result
+head(data)
+
+```
+
+##### Question 3: Come up with 2 graphs using ggplot2. You can use either the above quakes dataset or R'a built-in iris dataset, which you can view by running the code chunk below (super easy). 
+
+```{r}
+iris
+```
+
+Try adding colors, labels and other features to at least one of the graphs (refer to https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf). This exercise is meant to give you practice with making charts in R – just make sure your plots are clearly labelled and easy to understand. 
+
+```{r}
+# Your code here 
+```
+

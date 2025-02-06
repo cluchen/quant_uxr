@@ -191,6 +191,4 @@ summary(model_gender)
 #ANSWER = from this we can see that one dollar increase in non-book spending correlates to one 1.06 dollar increase in total spending. In addition, we can see that this is statistically significant (p-value <0.05). So there's clearly a positive correlation between the value variables and holds at the population at large.
 
 ```
-Q10: For both males and females, find the total number and also the percent who bought “The Art History of Florence."
-
 

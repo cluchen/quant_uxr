@@ -9,7 +9,7 @@ TODAY'S LESSON: We'll be using survey data!
 Check it out: https://docs.google.com/spreadsheets/d/1u8_iW25YpL2__q_0FJQ5CQ-LNQkUchz3yVOFUm2oHIQ/edit
 
 
-Importing Data (CSV or GoogleSheets)
+Step 1: Importing Data (CSV or GoogleSheets)
 
 ```{r}
 ## CSVs
@@ -39,7 +39,7 @@ survey_data.df.raw <- survey_data.df
 
 ```
 
-Getting timestamp of when people submitted the survey
+Get timestamp of when people submitted the survey
 
 ```{r}
 
@@ -48,6 +48,19 @@ dimnames(survey_data.df)
 plot(survey_data.df$`Timestamp`)
 
 ```
+Step 2: Counting & Dealing with NAs, NULLs, NaNs
+
+```{r}
+# Finding NAs
+
+# Count total NAs in the entire data frame
+total_nas <- sum(is.na(survey_data.df))
+# Print the result
+print(total_nas)
+
+```
+
+Step 3: Cleaning Data
 
 
 
